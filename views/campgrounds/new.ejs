@@ -1,0 +1,36 @@
+<div class="container" id="newcampground">
+  <h2 class="color-blue bold">Add New Campground</h2>
+  <form action="/campgrounds" method="POST">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input name="name" type="text" class="form-control" placeholder="Name" required>
+      <p class="required">*Required</p>
+    </div>
+    <div class="form-group">
+      <label for="image">Image</label>
+      <input name="image" type="text" class="form-control" placeholder="Image URL" required>
+      <p class="required">*Required</p>
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <input name="description" type="text" class="form-control" placeholder="description" required>
+      <p class="required">*Required</p>
+    </div>
+    <div class="form-group">
+      <label>Price</label>
+      <input name="priceamount" type="text" class="form-control" placeholder="Leave emty if Free">
+      <select name="pricedescription" class="form-control" required>
+        <option>Free</option>
+        <option>Night</option>
+        <option>Entry</option>
+        <option>Services</option>
+        <option>Other</option>
+      </select>
+      <p class="required">*Required</p>
+    </div>
+    <div class="align-center">
+      <a href="/campgrounds" class="btn btn-warning" id="button-group-1">Back</a>
+      <button type="submit" class="btn btn-success" id="button-group-1">Submit</button>
+    </div>
+  </form>
+</div>

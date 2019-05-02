@@ -1,0 +1,214 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-3">
+			<p class="lead">YelpCamp</p>
+			<div class="list-group">
+				<li class="list-group-item active">Menu 1</li>
+				<li class="list-group-item">Menu 2</li>
+				<li class="list-group-item">Menu 3</li>
+			</div>
+			<div id="map"></div>
+		</div>
+		<div class="col-md-9">
+			<div class="thumbnail">
+				<img class="img-responsive" src="<%= campground.image %>">
+				<div class="caption-full">
+					<!-- Rating -->
+					<% if (userRating != 0) { %>
+						<% if (userRating == 1) { %>
+						<a href="/campgrounds/<%= campground._id%>/rating/1"><i class="glyphicon glyphicon-star yellow"></i></a>
+						<% } -%>
+						<% if (userRating == 2) { %>
+						<a href="/campgrounds/<%= campground._id%>/rating/1"><i class="glyphicon glyphicon-star yellow"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/2"><i class="glyphicon glyphicon-star yellow"></i></a>
+						<% } -%>
+						<% if (userRating == 3) { %>
+						<a href="/campgrounds/<%= campground._id%>/rating/1"><i class="glyphicon glyphicon-star yellow"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/2"><i class="glyphicon glyphicon-star yellow"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/3"><i class="glyphicon glyphicon-star yellow"></i></a>
+						<% } -%>
+						<% if (userRating == 4) { -%>
+						<a href="/campgrounds/<%= campground._id%>/rating/1"><i class="glyphicon glyphicon-star yellow"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/2"><i class="glyphicon glyphicon-star yellow"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/3"><i class="glyphicon glyphicon-star yellow"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/4"><i class="glyphicon glyphicon-star yellow"></i></a>
+						<% } -%>
+						<% if (userRating == 5) { %>
+						<a href="/campgrounds/<%= campground._id%>/rating/1"><i class="glyphicon glyphicon-star yellow"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/2"><i class="glyphicon glyphicon-star yellow"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/3"><i class="glyphicon glyphicon-star yellow"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/4"><i class="glyphicon glyphicon-star yellow"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/5"><i class="glyphicon glyphicon-star yellow"></i></a>
+						<% } -%>
+						<!-- -->
+					<% } else {%>
+						<% if (ratingTotal == 1) { %>
+						<a href="/campgrounds/<%= campground._id%>/rating/1"><i class="glyphicon glyphicon-star red"></i></a>
+						<% } -%>
+						<% if (ratingTotal == 2) { %>
+						<a href="/campgrounds/<%= campground._id%>/rating/1"><i class="glyphicon glyphicon-star red"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/2"><i class="glyphicon glyphicon-star red"></i></a>
+						<% } -%>
+						<% if (ratingTotal == 3) { %>
+						<a href="/campgrounds/<%= campground._id%>/rating/1"><i class="glyphicon glyphicon-star red"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/2"><i class="glyphicon glyphicon-star red"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/3"><i class="glyphicon glyphicon-star red"></i></a>
+						<% } -%>
+						<% if (ratingTotal == 4) { -%>
+						<a href="/campgrounds/<%= campground._id%>/rating/1"><i class="glyphicon glyphicon-star red"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/2"><i class="glyphicon glyphicon-star red"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/3"><i class="glyphicon glyphicon-star red"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/4"><i class="glyphicon glyphicon-star red"></i></a>
+						<% } -%>
+						<% if (ratingTotal == 5) { %>
+						<a href="/campgrounds/<%= campground._id%>/rating/1"><i class="glyphicon glyphicon-star red"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/2"><i class="glyphicon glyphicon-star red"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/3"><i class="glyphicon glyphicon-star red"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/4"><i class="glyphicon glyphicon-star red"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/5"><i class="glyphicon glyphicon-star red"></i></a>
+						<% } -%>
+					<% } -%>
+					<!-- Blank Stars -->
+					<% if (userRating != 0) { %>
+						<% if (userRating == 0) { %>
+						<a href="/campgrounds/<%= campground._id%>/rating/1"><i class="glyphicon glyphicon-star"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/2"><i class="glyphicon glyphicon-star"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/3"><i class="glyphicon glyphicon-star"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/4"><i class="glyphicon glyphicon-star"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/5"><i class="glyphicon glyphicon-star"></i></a>
+						<% } -%>
+						<% if (userRating == 1) { %>
+						<a href="/campgrounds/<%= campground._id%>/rating/2"><i class="glyphicon glyphicon-star"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/3"><i class="glyphicon glyphicon-star"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/4"><i class="glyphicon glyphicon-star"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/5"><i class="glyphicon glyphicon-star"></i></a>
+						<% } -%>
+						<% if (userRating == 2) { %>
+						<a href="/campgrounds/<%= campground._id%>/rating/3"><i class="glyphicon glyphicon-star"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/4"><i class="glyphicon glyphicon-star"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/5"><i class="glyphicon glyphicon-star"></i></a>
+						<% } -%>
+						<% if (userRating == 3) { %>
+						<a href="/campgrounds/<%= campground._id%>/rating/4"><i class="glyphicon glyphicon-star"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/5"><i class="glyphicon glyphicon-star"></i></a>
+						<% } -%>
+						<% if (userRating == 4) { %>
+						<a href="/campgrounds/<%= campground._id%>/rating/5"><i class="glyphicon glyphicon-star"></i></a>
+						<% } -%>
+						<p class="inline grey fs-10">Your Rating!</p>
+					<% } else { %>
+						<% if (ratingTotal == 0) { %>
+						<a href="/campgrounds/<%= campground._id%>/rating/1"><i class="glyphicon glyphicon-star"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/2"><i class="glyphicon glyphicon-star"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/3"><i class="glyphicon glyphicon-star"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/4"><i class="glyphicon glyphicon-star"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/5"><i class="glyphicon glyphicon-star"></i></a>
+						<% } -%>
+						<% if (ratingTotal == 1) { %>
+						<a href="/campgrounds/<%= campground._id%>/rating/2"><i class="glyphicon glyphicon-star"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/3"><i class="glyphicon glyphicon-star"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/4"><i class="glyphicon glyphicon-star"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/5"><i class="glyphicon glyphicon-star"></i></a>
+						<% } -%>
+						<% if (ratingTotal == 2) { %>
+						<a href="/campgrounds/<%= campground._id%>/rating/3"><i class="glyphicon glyphicon-star"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/4"><i class="glyphicon glyphicon-star"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/5"><i class="glyphicon glyphicon-star"></i></a>
+						<% } -%>
+						<% if (ratingTotal == 3) { %>
+						<a href="/campgrounds/<%= campground._id%>/rating/4"><i class="glyphicon glyphicon-star"></i></a>
+						<a href="/campgrounds/<%= campground._id%>/rating/5"><i class="glyphicon glyphicon-star"></i></a>
+						<% } -%>
+						<% if (ratingTotal == 4) { %>
+						<a href="/campgrounds/<%= campground._id%>/rating/5"><i class="glyphicon glyphicon-star"></i></a>
+						<% } -%>
+						<p class="inline grey fs-10">by <%= campground.rating.length %> users</p>
+					<% } -%>
+					<!-- Price -->
+					<% if (campground.price.amount.length == 0) { -%>
+						<h4 class="pull-right"><%= campground.price.amount%><%= campground.price.description %></h4>
+					<% } else { -%>
+						<h4 class="pull-right">$<%= campground.price.amount%>/<%= campground.price.description %></h4>
+					<% } -%>
+					<h4><%= campground.name %></h4>
+					<p><%= campground.description %></p>
+					<p><em>Submitted by <%= campground.author.username %></em></p>
+					<% if (currentUser) {%>
+						<% if (campground.author.id == currentUser._id || currentUser.role > 1) {%>
+						<a class="btn btn-info" href="/campgrounds/<%= campground._id %>/edit">Edit Campground</a>
+						<form class="ui-buttons" action="/campgrounds/<%= campground._id %>?method=DELETE" method="POST">
+							<button class="btn btn-danger">Delete</button>
+						</form>
+						<% } -%>
+					<% } -%>
+				</div>
+			</div>
+			<div class="jumbotron">
+			<% campground.comments.forEach((comment) => { %>
+				<div class="row">
+					<div class="col-sm-1">
+						<img class="comment-img" width="60px" height="60px" src="<%= comment.author.image %>">
+					</div>
+					<div class="col-sm-11">
+						<p class="comment inline"><strong><%= comment.author.name %></strong></p>
+						<span class="pull-right">10 days ago</span>
+						<p class="comment"><%= comment.title %></p>
+						<p class="created"><%= comment.created %></p>
+					</div>
+				</div>
+					<div class="ui-buttons">
+					<% if (currentUser) {%>
+						<% if (currentUser._id == comment.author.id || currentUser.role > 0) {%>
+						<a href="/comments/<%= comment._id %>/edit" class="btn btn-warning">Edit</a>
+						<form class="ui-buttons"action="/comments/<%= comment._id %>?method=DELETE" method="POST">
+							<button class="btn btn-danger">Delete</button>
+						</form>
+						<% } -%>
+					<% } -%>
+					</div>
+			<% }) -%>
+				<% if (currentUser) { %>
+				<div class="container-fluid">
+					<form class="mt-20" action="/comments/<%=campground._id%>/new" method="POST">
+						<div class="form-group">
+			 			 	<textarea class="form-control" placeholder="Add a comment" name="title" required></textarea>
+						</div>
+						<div class="align-right">
+							<button type="submit" class="btn btn-success">Submit</button>
+						</div>
+					</form>
+				</div>
+				<% } else { %>
+				<a href="/users/login" class="btn btn-primary pull-right">Add Comment</a>
+				<% } -%>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+  function initMap() {
+    var lat = <%= campground.lat %>;
+    var lng = <%= campground.lng %>;
+    var center = {lat, lng};
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 8,
+        center: center,
+        scrollwheel: false
+    });
+    var content = `
+      <strong><%= campground.name %><br />
+      <%= campground.location %></strong>
+      <p><%= campground.description %></p>
+    `
+    var infowindow = new google.maps.InfoWindow({content});
+    var marker = new google.maps.Marker({
+        position: center,
+        map
+    });
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
+  }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALNqvEroOPMH-gr33U6_DUzyX5kDuvO1w&callback=initMap"></script>

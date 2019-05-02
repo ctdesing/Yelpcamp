@@ -1,0 +1,183 @@
+html, body{
+	height: 100%;
+	margin: 0;
+}
+a, button{
+	outline: none;
+}
+nav{
+	margin: 0;
+	padding: 0;
+	z-index: 2;
+}
+.inline{
+	display: inline;
+}
+.grey{
+	color: grey;
+}
+.fs-10{
+	font-size: 10px;
+}
+.align-center{
+	display: flex;
+	justify-content: center;
+}
+.color-blue{
+	color: mediumblue;
+}
+.bold{
+	font-weight: 800;
+}
+div.form-group p.required{
+	color: red;
+	font-size: 10px;
+	display: inline;
+}
+.thumbnail>img.allimages{
+	height: 200px;
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+}
+.thumbnail>.img-responsive{
+	width: 100%;
+}
+.thumbnail{
+	padding: 0;
+}
+.thumbnail>.caption-full{
+	padding: 9px;
+}
+.jumbotron>.row>.col-sm-11>p.created{
+	font-size: 8px;
+	color: grey;
+	margin-top: 0;
+	margin-bottom: 10px;
+}
+.jumbotron>.row>.col-sm-11>.comment{
+	margin-bottom: 0px;
+	font-size: 16px;
+}
+.jumbotron>.row>.col-sm-1>img{
+	border-radius: 50%;
+}
+.align-right{
+	text-align: right;
+	align-self: right;
+	align-items: right;
+}
+.center{
+	text-align: center;
+}
+.title{
+	color: steelblue;
+}
+.red{
+	color: red;
+}
+.yellow{
+	color: yellow;
+}
+img.user-photo{
+	height: 30px;
+	width: 30px;
+	display: inline;
+}
+.ui-buttons{
+	display: inline;
+	margin-left: 10px;
+}
+.mt-20{
+	margin-top: 20px;
+}
+div.jumbotron>p>span.userinfo{
+	font-size: 16px;
+	display: inline;
+}
+.slideshow{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 0;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.slideshow li{
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	position: absolute;
+	-webkit-background-size: cover;
+	     -o-background-size: cover;
+	        background-size: cover;
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	opacity: 0;
+	z-index: 0;
+	-webkit-animation: imageAnimation 20s linear infinite;
+	   -moz-animation: imageAnimation 20s linear infinite;
+	     -o-animation: imageAnimation 20s linear infinite;
+	        animation: imageAnimation 20s linear infinite;
+}
+.slideshow li:nth-child(1) { 
+  background-image: url(http://i.imgur.com/K3mPv14.jpg) 
+}
+.slideshow li:nth-child(2) { 
+  background-image: url(http://i.imgur.com/SBEmFpv.jpg);
+  animation-delay: 5s; 
+}
+.slideshow li:nth-child(3) { 
+  background-image: url(http://i.imgur.com/emvhOnb.jpg);
+  animation-delay: 10s; 
+}
+.slideshow li:nth-child(4) { 
+  background-image: url(http://i.imgur.com/2LSMCmJ.jpg);
+  animation-delay: 15s; 
+}
+.slideshow li:nth-child(5) { 
+  background-image: url(http://i.imgur.com/TVGe0Ef.jpg);
+  animation-delay: 20s; 
+}
+#button-group-1{
+	margin: 5px;
+	width: 20%;
+	min-width: 80px;
+}
+#newcampground{
+	margin-top: 40px;
+}
+#landing-header{
+	z-index: 1;
+	position: relative;
+	text-align: center;
+	padding-top: 40vh;
+}
+#title{
+	color: white;
+	text-shadow: 0px 2px 3px rgb(0,0,0,0.5);
+}
+@keyframes imageAnimation { 
+  0% { 
+    opacity: 0; 
+    animation-timing-function: ease-in;
+  }
+  15% {
+    opacity: 1;
+    animation-timing-function: ease-out;
+  }
+  30% {
+    opacity: 1
+  }
+  45% {
+    opacity: 0
+  }
+}
+#map{
+	height: 400px;
+	width: 100%;
+}

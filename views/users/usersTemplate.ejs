@@ -1,0 +1,37 @@
+<div class="col-sm-4 col-md-3">
+	<div class="thumbnail">
+		<img class="allimages" src="<%= user.image %>" alt="">
+		<div class="caption text-center">
+			<p>Name - <span class="userinfo"><%= user.name %></span></p>
+			<p>Email - <span class="userinfo"><%= user.email %></span></p>
+			<p>Username - <span class="userinfo"><%= user.username %></span></p>
+			<p>Role - 
+				<% if (user.role == 0) {  %>
+				<span class="userinfo">User</span>
+				<% } -%>
+				<% if (user.role == 1) {  %>
+				<span class="userinfo">Moderator</span>
+				<% } -%>
+				<% if (user.role == 2) {  %>
+				<span class="userinfo">Regulator</span>
+				<% } -%>
+				<% if (user.role == 3) {  %>
+				<span class="userinfo">Super</span>
+				<% } -%>
+				<% if (user.role == 4) {  %>
+				<span class="userinfo">Admin</span>
+				<% } -%>
+			</p>
+			<p>Member Since - <span class="userinfo"><%= user.created.getFullYear() %></span> </p>
+			<% if (currentUser.role == 4) {%>
+			<hr>
+			<div class="align-center">
+				<a class="btn btn-warning inline ui-buttons" href="/users/<%= user._id%>/edit">Edit</a>
+				<form action="/users/<%= user._id %>?method=DELETE" method="POST">
+					<button class="btn btn-danger inline ui-buttons">Delete</button>
+				</form>
+			</div>
+			<% } -%>
+		</div>
+	</div>
+</div>

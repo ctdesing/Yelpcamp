@@ -1,0 +1,47 @@
+<div class="container">
+	<h1>Administrators</h1>
+	<hr>
+	<div class="row" style="display: flex; flex-wrap: wrap;">
+		<% users.forEach(function(user){ %>
+			<% if (user.role == 4) {%>
+				<% include usersTemplate %>
+			<% } -%>
+		<% }); -%>
+	</div>
+	<h1>Super Users</h1>
+	<hr>
+	<div class="row" style="display: flex; flex-wrap: wrap;">
+		<% users.forEach(function(user){ %>
+			<% if (user.role == 3) {%>
+				<% include usersTemplate %>
+			<% } -%>
+		<% }); -%>
+	</div>
+	<h1>Regulators</h1>
+	<hr>
+	<div class="row" style="display: flex; flex-wrap: wrap;">
+		<% users.forEach(function(user){ %>
+			<% if (user.role == 2) {%>
+				<% include usersTemplate %>
+			<% } -%>
+		<% }); -%>
+	</div>
+	<h1>Moderators</h1>
+	<hr>
+	<div class="row" style="display: flex; flex-wrap: wrap;">
+		<% users.forEach(function(user){ %>
+			<% if (user.role == 1) {%>
+				<% include usersTemplate %>
+			<% } -%>
+		<% }); -%>
+	</div>
+	<h1>Users</h1>
+	<hr>
+	<div class="row" style="display: flex; flex-wrap: wrap;">
+		<% users.forEach(function(user){ %>
+			<% if (user.role == 0) {%>
+				<% include usersTemplate %>
+			<% } -%>
+		<% }); -%>
+	</div>
+</div>

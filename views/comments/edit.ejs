@@ -1,0 +1,9 @@
+<div class="container">
+	<form action="/comments/<%=comment._id%>?method=PUT" method="POST">
+		<div class="form-group">
+			<textarea class="form-control" name="title" required autofocus><%= comment.title %></textarea>
+		</div>
+		<div class="align-right">
+			<button type="submit" class="btn btn-success">Submit</button>
+		</div>
+	</form>
