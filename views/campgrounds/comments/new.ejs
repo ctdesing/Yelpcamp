@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="jumbotron" style="max-width: fit-content; margin: 0 auto;">
+    <h1 style="margin-bottom: 2rem;">Add New Comment to <%= campground.name %></h1>
+    <!-- Form -->
+    <form action="/campgrounds/<%= campground.id %>/comment" method="POST">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Author</label>
+        <input type="text" class="form-control" id="author" placeholder="Author" name="author">
+      </div>
+      <div class="form-group">
+        <label for="">Body</label>
+        <input type="text" class="form-control" id="body" placeholder="Body" name="text">
+      </div>
+      <button type="submit" class="btn btn-primary" style="width: max-content;">Submit</button>
+    </form>
+  </div>
+</div>
