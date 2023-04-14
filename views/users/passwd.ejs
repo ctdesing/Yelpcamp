@@ -1,0 +1,55 @@
+<div class="container">
+    <h3 class="title">Change Password</h3>
+    <div class="jumbotron">
+        <form class="form-horizontal" action="/users/passwd" method="POST" encType="multipart/form-data">
+            <input type="hidden" name="username" value="<%= currentUser.username %>">
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Current Password</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" name="password" placeholder="Current Password" required>
+                    <p class="required">*Required</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">New Password</label>
+                <div class="col-sm-10">
+                    <input id="p1" type="password" class="form-control" name="passwd" placeholder="New Password"
+                        required>
+                    <p class="required">*Required</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword3" class="col-sm-2 control-label">Confirm Password</label>
+                <div class="col-sm-10">
+                    <input id="p2" type="password" class="form-control" placeholder="Confirm Password" required>
+                    <p id="ed" class="required">*Required</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10 align-right">
+                    <button id="submit" type="submit" class="btn btn-primary" disabled>Change Password</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    let p1 = document.querySelector('#p1');
+    let p2 = document.querySelector('#p2');
+    let btn = document.querySelector('#submit');
+    let ed = document.querySelector('#ed');
+
+    p2.addEventListener('input', () => {
+        if (p2.value != p1.value) {
+            ed.innerText = "Password must be the same of above";
+            btn.disabled = true;
+        }
+        else {
+            ed.innerText = "";
+            if (p1.value == p2.value && p1.value != "") {
+                console.log('equal');
+                btn.disabled = false;
+            }
+        }
+    });
+</script>

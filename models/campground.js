@@ -2,7 +2,7 @@ let mongoose = require('mongoose');
 let Comment = require('./comment.js');
 let campgroundSchema = new mongoose.Schema(
 	{
-		name: String, 
+		name: {type: String, unique: true}, 
 		image: String, 
 		description: String,
 		price: {
@@ -17,12 +17,8 @@ let campgroundSchema = new mongoose.Schema(
 			userid: String,
 			value: String
 		}],
-		author: {
-			id: String,
-			username: String
-		},
+		author: {},
 		location: String,
-		lat: Number,
-		lng: Number
+		created: {type: Date, default: Date.now}
 	});
 module.exports = mongoose.model('Campground', campgroundSchema);

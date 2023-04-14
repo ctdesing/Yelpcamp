@@ -1,0 +1,22 @@
+body{
+	background-image: url('https://images.unsplash.com/photo-1527467779599-34448b3fa6a7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80');
+}
+.container-fluid{
+	margin: 15px;
+}
+.container{
+	margin-left: : 50px;
+	margin-top: 20px;
+}
+#title{
+	color: #FFF;
+}
+#errorCode{
+	color: red;
+}
+#body{
+	color: #FFF;
+}
+#arrow{
+	color: #FFF;
+}

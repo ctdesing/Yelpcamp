@@ -1,174 +1,248 @@
 const express = require('express');
-			router = express.Router(),
-			User = require('../models/user.js'),
-			passport = require('passport'),
-			middleware = require('../middleware/index.js'),
-			isLoggedIn = middleware.isLoggedIn;
-// Server Say Function
-function say(...message) {
-	console.log(`[Server] ${message}`);
-}
+
+const fs = require('fs');
+
+const router = express.Router();
+
+const passport = require('passport');
+
+const middleware = require('../middleware/index.js');
+
+const { isLoggedIn } = middleware;
+
+const User = require('../models/user.js');
+
 // =================
 // Users Routes
 // =================
 // USERS LIST
-router.get('/', isLoggedIn, (req, res) => {
-	if (req.user.role > 2) {
-		User.find({}, function(err, users){
-			if (err) {
-				req.flash('error', err.message);
-				res.redirect('/');
-			}
-			else {
-				res.render('index', {users, site: './users/users'});
-			}
-		});
-	}
-	else {
-		req.flash('error', 'Permission Denied');
-		res.redirect('/');
-	}
+router.get('/', isLoggedIn, (req, res, next) => {
+  if (req.user.role > 2) {
+    User.find({}, (err, users) => {
+      if (err) {
+        next(err);
+      } else {
+        res.render('index', { users, site: './users/users' });
+      }
+    });
+  } else {
+    req.flash('error', 'Permission Denied');
+    res.redirect('/');
+  }
 });
 // CREATE FORM
 router.get('/register', (req, res) => {
-	res.render('index', {site: './users/new'});
+  if (req.isAuthenticated()) {
+    req.flash(
+      'info',
+      `You are already logged in, if you are not ${req.user.name} then please log out this account, thank you.`,
+    );
+    res.redirect(`/users/${req.user._id}`);
+  } else {
+    res.render('index', { site: './users/new' });
+  }
 });
 // CREATE POST
-router.post('/register', (req, res) => {
-	let role = 0;
-	if (req.body.role != null)
-		role = req.body.role;
+router.post('/register', (req, res, next) => {
+  let role = 0;
+  if (req.body.role != null) {
+    role = req.body.role;
+  }
 
-	let image = req.body.image;
-	if (req.body.image.length == 0) {
-		image = 'https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=889&q=80'
-	}
-	say(image);
-
-	let user = new User({
-		username: req.body.username,
-		name: req.body.name,
-		email: req.body.email,
-		role: role,
-		image: image
-	});
-	User.register(user, req.body.password, (err, user) => {
-		if (err) {
-			req.flash('error', err.message);
-			res.redirect('/users/register');
-		}
-		else {
-			passport.authenticate('local')(req, res, () => {
-				req.flash('success', `Welcome ${user.username}, you can now enjoy all our features.`);
-				res.redirect('/campgrounds');
-			});
-		}
-	});
-});
-// LOGIN FORM
-router.get('/login', (req, res ) => {
-	res.render('index', {site: './users/login.ejs'});
+  const newUser = new User({
+    username: req.body.username,
+    name: req.body.name,
+    email: req.body.email,
+    role,
+    image: 'default-user.jpg',
+  });
+  User.register(newUser, req.body.password, (err, user) => {
+    if (err) {
+      if (err.code == 11000) {
+        req.flash('error', 'A user with the given email address is already registered.');
+        res.redirect('/users/register');
+      } else {
+        return next(err);
+      }
+    } else {
+      // Image Processing
+      if (req.files) {
+        const { image } = req.files;
+        if (image.mimetype.split('/')[0] != 'image') {
+          req.flash('error', 'Invalid file type, must be image.');
+          return res.redirect('/users/new');
+        }
+        const imageExt = image.mimetype.split('/')[1];
+        const imageName = `${user._id}.${imageExt}`;
+        const imagePath = `./public/images/${imageName}`;
+        image.mv(imagePath, errAtImgProc => {
+          if (errAtImgProc) {
+            return next(errAtImgProc);
+          }
+        });
+        user.update({ image: imageName }, errAtUpdate => {
+          if (errAtUpdate) {
+            next(errAtUpdate);
+          }
+        });
+      }
+      passport.authenticate('local')(req, res, () => {
+        req.flash('success', `Welcome ${user.username}, you can now enjoy all our features.`);
+        return res.redirect('/campgrounds');
+      });
+    }
+    return 0;
+  });
 });
 // LOGIN POST
-router.post('/', function(req, res, next) {
-	passport.authenticate('local', function(err, user, info) {
-		if (err) { 
-			req.flash('error', err.message);
-			res.redirect('/users/login');
-		}
-		else {
-			if (!user) { 
-				req.flash('error', 'Username or Password incorrect, please try again.');
-				res.redirect('/users/login'); 
-			}
-			else {
-				req.logIn(user, function(err) {
-					if (err) { 
-						req.flash('error', err.message);
-						res.redirect('/users/login');
-					}
-					else {
-						req.flash('success', 'Welcome back ' + user.name + '!');
-						res.redirect('/campgrounds');
-					}
-				});
-			}
-		}
-	})(req, res, next);
+router.post('/', (req, res, next) => {
+  passport.authenticate('local', (err, user) => {
+    if (err) {
+      next(err);
+    } else if (!user) {
+      req.flash('error', 'Username or Password incorrect, please try again.');
+      res.redirect('/campgrounds');
+    } else {
+      req.logIn(user, errAtLogIn => {
+        if (errAtLogIn) {
+          next(errAtLogIn);
+        } else {
+          req.flash('success', `Welcome back ${user.name}!`);
+          res.redirect(req.body.url || '/campgrounds');
+        }
+      });
+    }
+  })(req, res, next);
 });
-// LOGOUT 
+// LOGOUT
 router.get('/logout', (req, res) => {
-	req.logout();
-	req.flash('success', "You've logged out successfully!");
-	res.redirect('/');
+  req.logout();
+  req.flash('success', "You've logged out successfully!");
+  res.redirect('/');
 });
-// PROFILE
-router.get('/:id', isLoggedIn, (req, res) => {
-	User.findById(req.params.id, (err, user) => {
-		if (err || !user) {
-			req.flash('error', 'User not found.');
-			res.redirect('/');
-		} 
-		else {
-			res.render('index', {site: "./users/profile", user});
-		}
-	});
+// CHANGE PASSWORD GET
+router.get('/passwd', isLoggedIn, (req, res, next) => {
+  res.render('index', { site: './users/passwd' });
+});
+// CHANGE PASSWORD POST
+router.post('/passwd', isLoggedIn, (req, res, next) => {
+  passport.authenticate('local', (errAuth, auth) => {
+    if (errAuth) {
+      return next(errAuth);
+    }
+    if (!auth) {
+      req.flash('error', 'Current password incorrect, please try again.');
+      return res.redirect('/users/passwd');
+    }
+    User.findById(req.user._id, async (errUser, user) => {
+      if (errUser) return next(errUser);
+      try {
+        await user.setPassword(req.body.passwd);
+        await user.save();
+      } catch (err) {
+        return next(err);
+      }
+      req.flash('success', 'Password Updated Sucessfully.');
+      return res.redirect('/profile');
+    });
+  })(req, res, next);
 });
 // EDIT FORM
-router.get('/:id/edit', isLoggedIn, (req, res) => {
-	if (req.user.role > 2) {
-		User.findById(req.params.id, (err, user) => {
-			if (err || !user) {
-				req.flash('error', 'User not found');
-				res.redirect('/');
-			} 
-			else {
-				res.render('index', {site: './users/edit', user});
-			}
-		});
-	}
-	else {
-		req.flash('error', 'Permission Denied');
-		res.redirect('/');
-	}
+router.get('/:id/edit', isLoggedIn, (req, res, next) => {
+  if (req.user.role > 2) {
+    User.findById(req.params.id, (err, user) => {
+      if (err || !user) {
+        next(err || new Error('Wrong user id provided.'));
+      } else {
+        res.render('index', { site: './users/edit', user });
+      }
+    });
+  } else {
+    req.flash('error', 'Permission Denied');
+    res.redirect('/');
+  }
 });
 // EDIT PUT
-router.put('/:id', isLoggedIn, (req, res) => {
-	if (req.user.role > 2) {
-		User.findByIdAndUpdate(req.params.id, req.body.user, (err, user) => {
-			if (err || !user) {
-				req.flash('error', err.message || 'There was an error while performing this operation.');
-				res.redirect('/');
-			} 
-			else {
-				req.flash('success', 'Account modifications saved successfully');
-				res.redirect('/users/' + user._id);
-			}
-		});
-	}
-	else {
-		req.flash('error', 'Permission Denied');
-		res.redirect('/');
-	}
+router.put('/:id', isLoggedIn, (req, res, next) => {
+  if (req.user.role > 2) {
+    const userInfo = {
+      username: req.body.username,
+      name: req.body.name,
+      email: req.body.email,
+      role: req.body.role,
+    };
+    User.findOneAndUpdate({ _id: req.params.id }, userInfo, (err, user) => {
+      if (err || !user) {
+        return next(err || new Error('No User Returned with the id provided'));
+      }
+      // Image Processing
+      if (!req.files) {
+        req.flash('success', 'Changes saved successfully.');
+        return res.redirect(`/users/${user._id}`);
+      }
+
+      const { image } = req.files;
+      if (image.mimetype.split('/')[0] != 'image') {
+        req.flash('error', 'Invalid file type, must be image.');
+        return res.redirect(`/users/${user._id}/edit`);
+      }
+      const imageExt = image.mimetype.split('/')[1];
+      const imageName = `${user._id}.${imageExt}`;
+      const imagePath = `./public/images/${imageName}`;
+      if (user.image != 'default-user.jpg') {
+        const path = `./public/images/${user.image}`;
+        fs.unlink(path, errDeletingFile => {
+          if (errDeletingFile) {
+            return next(errDeletingFile);
+          }
+        });
+      }
+      image.mv(imagePath, errSavingFile => {
+        if (errSavingFile) {
+          return next(errSavingFile);
+        }
+      });
+      user.update({ image: imageName }, errUpdatingUser => {
+        if (errUpdatingUser) {
+          return next(errUpdatingUser);
+        }
+      });
+
+      req.flash('success', 'Account modifications saved successfully');
+      return res.redirect('/users');
+    });
+  } else {
+    req.flash('error', 'Access Denied');
+    res.redirect('/');
+  }
 });
 // DELETE
-router.delete('/:id', isLoggedIn, (req, res) => {
-	if (req.user.role == 4) {
-		User.findByIdAndRemove(req.params.id, (err) => {
-			if (err) {
-				req.flash('error', err.message);
-				res.redirect('/');
-			}
-			else {
-				req.flash('success', 'Account deleted successfully');
-				res.redirect('/');
-			}
-		});
-	}
-	else {
-		req.flash('error', 'Permission Denied');
-		res.redirect('/');
-	}
+router.delete('/:id', isLoggedIn, (req, res, next) => {
+  if (req.user.role == 4) {
+    User.findById(req.params.id, (err, user) => {
+      if (err || !user) {
+        return next(err || new Error('User not found'));
+      }
+      if (user.image != 'default-user.jpg') {
+        const path = `./public/images/${user.image}`;
+        fs.unlink(path, errRemovingFile => {
+          if (errRemovingFile) {
+            return next(errRemovingFile);
+          }
+        });
+      }
+      user.remove(errRemovingUser => {
+        if (errRemovingUser) next(errRemovingUser);
+        else {
+          req.flash('success', 'Account deleted successfully');
+          res.redirect('/users');
+        }
+      });
+    });
+  } else {
+    req.flash('error', 'Permission Denied');
+    res.redirect('/');
+  }
 });
 
 module.exports = router;

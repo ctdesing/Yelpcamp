@@ -1,4 +1,5 @@
 // MiddleWare
+const User = require('../models/user.js');
 let middleware = {};
 
 
@@ -9,7 +10,7 @@ middleware.isLoggedIn = (req, res, next) => {
 	else {
 		console.log(req.originalUrl);
 		req.flash('error', 'You need to log in first!');
-		res.redirect('/users/login');
+		res.redirect('/campgrounds');
 	}
 };
 

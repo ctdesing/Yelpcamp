@@ -1,6 +1,6 @@
 <div class="container" id="newcampground">
   <h2 class="color-blue bold">Add New Campground</h2>
-  <form action="/campgrounds" method="POST">
+  <form action="/campgrounds" method="POST" encType="multipart/form-data">
     <div class="form-group">
       <label for="name">Name</label>
       <input name="name" type="text" class="form-control" placeholder="Name" required>
@@ -8,7 +8,12 @@
     </div>
     <div class="form-group">
       <label for="image">Image</label>
-      <input name="image" type="text" class="form-control" placeholder="Image URL" required>
+      <input name="image" type="file" class="form-control" placeholder="Image" accept="image/*" required>
+      <p class="required">*Required</p>
+    </div>
+    <div class="form-group">
+      <label>Location</label>
+      <input name="location" type="text" class="form-control" placeholder="Central Park, NY" required>
       <p class="required">*Required</p>
     </div>
     <div class="form-group">

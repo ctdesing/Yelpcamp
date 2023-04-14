@@ -13,11 +13,10 @@ function say(...message) {
 // Comment Routes
 // ====================
 // CREATE POST
-router.post('/:id/new', isLoggedIn, (req, res) => {
+router.post('/:id/new', isLoggedIn, (req, res, next) => {
 	Campground.findById(req.params.id, (err, campground) => {
 		if (err || !campground) {
-			req.flash('error', 'Campground not found.');
-			res.redirect('/campgrounds');
+			next(err || new Error('Campground not found'));
 		}
 		else {
 			let newcomment = new Comment({
@@ -27,15 +26,13 @@ router.post('/:id/new', isLoggedIn, (req, res) => {
 			});
 			Comment.create(newcomment, (err, comment) => {
 				if (err) {
-					req.flash('error', err.message);
-					res.redirect('/campgrounds/' + campground._id);
+					next(err);
 				}
 				else {
 					campground.comments.push(comment);
 					campground.save((err) => {
 						if (err) {
-							req.flash('error', err.message);
-							res.redirect('/campgrounds/' + campground._id);
+							next(err);
 						}
 						else {
 							req.flash('success', 'Comment created successfully');
@@ -52,11 +49,10 @@ router.get('/:id/edit', isLoggedIn, isAuth, (req, res) => {
 	res.render('index', {site: './comments/edit'});
 });
 // EDIT PUT
-router.put('/:id', isLoggedIn, isAuth, (req, res) => {
+router.put('/:id', isLoggedIn, isAuth, (req, res, next) => {
 	Comment.findByIdAndUpdate(req.params.id, {title: req.body.title}, (err, comment) => {
 		if (err) {
-			req.flash('error', err.message);
-			res.redirect('/campgrounds/' + comment.campground.id);
+			next(err);
 		}
 		else {
 			// let comment = res.locals.comment;
@@ -66,12 +62,11 @@ router.put('/:id', isLoggedIn, isAuth, (req, res) => {
 	});
 });
 
-router.delete('/:id', isLoggedIn, isAuth, (req, res) => {
+router.delete('/:id', isLoggedIn, isAuth, (req, res, next) => {
 	Comment.findByIdAndRemove(req.params.id, (err) => {
 		let comment = res.locals.comment;
 		if (err) {
-			req.flash('error', err.message);
-			res.redirect('/campgrounds/' + comment.campground.id);
+			next(error);
 		}
 		else {
 			req.flash('success', 'Comment removed successfully');

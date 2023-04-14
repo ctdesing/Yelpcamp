@@ -1,7 +1,7 @@
 <div class="container">
   <h3 class="title">Sign Up</h3>
   <div class="jumbotron">
-    <form class="form-horizontal" action="/users/register" method="POST">
+    <form class="form-horizontal" action="/users/register" method="POST" encType="multipart/form-data">
       <div class="form-group">
         <label for="inputEmail3" class="col-sm-2 control-label">Name</label>
         <div class="col-sm-10">
@@ -33,7 +33,7 @@
       <div class="form-group">
         <label class="col-sm-2 control-label">Photo</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" name="image" placeholder="Photo">
+          <input name="image" type="file" class="form-control" placeholder="Image" accept="image/*">
         </div>
       </div>	
       <% if (currentUser) { %>
@@ -54,3 +54,6 @@
     </form>
   </div>
 </div>
+<script>
+  document.getElementById('register-nav').classList.add('active');
+</script>

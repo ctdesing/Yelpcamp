@@ -2,11 +2,32 @@
 	<div class="row">
 		<div class="col-sm-3">
 			<div class="thumbnail">
-				<img src="<%= user.image %>">
+				<img class="profile-image img-resposive" src="/images/<%= user.image %>">
 			</div>
 		</div>
 		<div class="col-sm-9">
-			<h1><%= user.name%></h1>
+			<h1><%= user.name %></h1>
+			<h2><%= user.username %></h2>
+			<h2><%= user.email %></h2>
+			<h2>Role -
+				<% if (user.role == 0) {  %>
+				<span class="userinfo">User</span>
+				<% } -%>
+				<% if (user.role == 1) {  %>
+				<span class="userinfo">Moderator</span>
+				<% } -%>
+				<% if (user.role == 2) {  %>
+				<span class="userinfo">Official</span>
+				<% } -%>
+				<% if (user.role == 3) {  %>
+				<span class="userinfo">Super</span>
+				<% } -%>
+				<% if (user.role == 4) {  %>
+				<span class="userinfo">Admin</span>
+				<% } -%>
+			</h2>
+			<h2>Joined <%= moment(user.created).fromNow()%></h2>
+			<a class="btn btn-info btn-large" href="/users/passwd">Change Password</a>
 		</div>
 	</div>
 </div>

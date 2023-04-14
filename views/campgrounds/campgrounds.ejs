@@ -2,18 +2,13 @@
 	<header class="jumbotron">
 		<h1>Camp Grounds</h1>
 		<p class="lead">View our hand-picked campgrounds from all over the world.</p>
-		<% if (currentUser) { %>
-			<p>
-				<a class="btn btn-info float-left" href="/campgrounds/new">New Campground</a>
-			</p>
-		<% } %>
 	</header>
 	<div class="row text-center" style="display: flex; flex-wrap: wrap;">
 		<% campgrounds.forEach(function(ground){ %>
 			<div class="col-xs- col-sm-6 col-md-4 col-lg-3">
 				<div class="thumbnail">
 					<a href="/campgrounds/<%= ground._id %>">
-						<img class="allimages" src="<%= ground.image %>">
+						<img class="allimages" src="/images/<%=ground.image%>">
 					</a>
 					<div class="caption">
 						<a href="/campgrounds/<%= ground._id %>"><%= ground.name %></a>
@@ -25,3 +20,7 @@
 		<% }); -%>
 	</div>
 </div>
+
+<script>
+	document.getElementById('campground-nav').classList.add('active');
+</script>
